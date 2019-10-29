@@ -1,0 +1,91 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Store Microservice"
+tags:
+- name: "store"
+  description: "Access to Articles"
+paths:
+  /store/articles:
+    get:
+      operationId: "get_articles_by_ids"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "articleIds"
+        in: "query"
+        description: "IDs of articles that need to be fetched"
+        required: true
+        type: "array"
+        items:
+          type: "integer"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Articles"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Articel not found"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+  /store/inventory:
+    get:
+      operationId: "get_inventory"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Articles"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+definitions:
+  Article:
+    type: "object"
+    properties:
+      price:
+        type: "number"
+      inStorage:
+        type: "boolean"
+      quantity:
+        type: "integer"
+        format: "int32"
+      description:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      nextShipDate:
+        type: "string"
+        format: "date-time"
+    example:
+      quantity: 6
+      price: 0.80082819046101150206595775671303272247314453125
+      description: "description"
+      id: 1
+      inStorage: true
+      nextShipDate: "2000-01-23T04:56:07.000+00:00"
+  Articles:
+    properties:
+      articles:
+        type: "array"
+        items:
+          $ref: "#/definitions/Article"
+    example:
+      articles:
+      - quantity: 6
+        price: 0.80082819046101150206595775671303272247314453125
+        description: "description"
+        id: 1
+        inStorage: true
+        nextShipDate: "2000-01-23T04:56:07.000+00:00"
+      - quantity: 6
+        price: 0.80082819046101150206595775671303272247314453125
+        description: "description"
+        id: 1
+        inStorage: true
+        nextShipDate: "2000-01-23T04:56:07.000+00:00"
