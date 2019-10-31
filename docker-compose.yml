@@ -1,10 +1,9 @@
-version: "3.7"
+version: "3.3"
 services:
   store:
     build:
       context: ./services/store
       dockerfile: Dockerfile
-      network: host
     ports:
       - "8080:8080"
     links:
@@ -15,7 +14,6 @@ services:
     build:
       context: ./services/shopping_cart
       dockerfile: Dockerfile
-      network: host
     expose:
       - "8080"
 
@@ -23,6 +21,5 @@ services:
     build:
       context: ./services/user
       dockerfile: Dockerfile
-      network: host
     expose:
       - "8080"
