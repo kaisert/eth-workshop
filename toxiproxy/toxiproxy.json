@@ -1,0 +1,20 @@
+[
+    {
+      "name": "store_dev_1",
+      "listen": "0.0.0.0:8080",
+      "upstream": "store:8080",
+      "enabled": true
+    },
+    {
+      "name": "shopping_cart_dev_1",
+      "listen": "0.0.0.0:8081",
+      "upstream": "shopping_cart:8080",
+      "enabled": true
+    },
+    {
+      "name": "user_dev_1",
+      "listen": "0.0.0.0:8082",
+      "upstream": "user:8080",
+      "enabled": true
+    }
+  ]

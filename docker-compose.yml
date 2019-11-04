@@ -6,10 +6,10 @@ services:
       dockerfile: Dockerfile
     volumes:
       - './services/store:/usr/src/app'
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     links:
-      - "db"
+      - "toxiproxy"
       - "shopping_cart"
       - "user"
 
@@ -23,6 +23,8 @@ services:
       - "db"
     expose:
       - "8080"
+    links:
+      - "toxiproxy"
 
   user:
     build:
@@ -34,6 +36,8 @@ services:
       - "db"
     expose:
       - "8080"
+    links:
+      - "toxiproxy"
 
   db:
     image: postgres:alpine
@@ -43,3 +47,20 @@ services:
       - "5432"
         # ports:
         #- "5432:5432"
+
+  toxiproxy:
+    image: shopify/toxiproxy
+    command: -host=0.0.0.0 -config=/root/config/toxiproxy.json
+    ports:
+      - "8474:8474"
+      - "8080:8080"
+    volumes:
+      - ./toxiproxy:/root/config
+    links:
+      - "store"
+      - "shopping_cart"
+      - "user"
+    expose:
+      - "8080" # store
+      - "8081" # shopping_cart
+      - "8082" # user
