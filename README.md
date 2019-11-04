@@ -1,1 +1,1 @@
-# eth-workshop
+# ETH Workshop Step 3
