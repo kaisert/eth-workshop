@@ -36,3 +36,5 @@ services:
       - POSTGRES_PASSWORD=NotMyBestIdea
     expose:
       - "5432"
+    # ports:
+    #   - "5432:5432"
