@@ -30,11 +30,10 @@ services:
       - "8080"
 
   db:
-    build:
-      image: postgres
+    image: postgres
     environment:
       - POSTGRES_PASSWORD=NotMyBestIdea
     expose:
       - "5432"
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
