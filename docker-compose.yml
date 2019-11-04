@@ -23,6 +23,8 @@ services:
       - toxiproxy
     expose:
       - "8080"
+    links:
+      - "toxiproxy"
 
   user:
     build:
@@ -36,6 +38,8 @@ services:
       - './services/user:/usr/src/app'
     expose:
       - "8080"
+    links:
+      - "toxiproxy"
 
   db:
     image: postgres:alpine
