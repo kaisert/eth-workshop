@@ -1,3 +1,4 @@
+import os
 import contextlib
 
 import sqlalchemy
@@ -11,7 +12,10 @@ from swagger_server.exceptions.exceptions import *
 
 db_username = 'postgres'
 db_password = 'NotMyBestIdea'
-db_host = 'localhost'
+if 'DB' in os.environ:
+    db_host = os.environ['DB']
+else:
+    db_host = 'localhost'
 db_port = 5432
 db_db = 'user'
 
