@@ -5,6 +5,7 @@ from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
 
 from swagger_server.repository.repository import Repository
+from swagger_server.exceptions.exceptions import *
 
 repository = Repository()
 
@@ -21,7 +22,10 @@ def create_user(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = User.from_dict(connexion.request.get_json())  # noqa: E501
-        repository.CreateUser(body)
+        try:
+            repository.create_user(body)
+        except UserAlreadyExistsException:
+            return 'user already exists', 409
 
     return
 
@@ -36,7 +40,11 @@ def delete_user(username):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    try:
+        repository.delete_user(username)
+    except UserNotFoundException:
+        return 'user not found', 404
+    return
 
 
 def get_user_by_name(username):  # noqa: E501
@@ -49,7 +57,10 @@ def get_user_by_name(username):  # noqa: E501
 
     :rtype: User
     """
-    return 'do some magic!'
+    try:
+        return repository.get_user(username)
+    except UserNotFoundException:
+        return 'user not found', 404
 
 
 def login_user(username, password):  # noqa: E501
@@ -92,4 +103,7 @@ def update_user(username, body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = User.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    try:
+        repository.update_user(username, body)
+    except UserNotFoundException:
+        return 'user not found', 404
