@@ -7,7 +7,7 @@ tags:
 - name: "store"
   description: "Access to Articles"
 paths:
-  /store/articles:
+  /articles:
     get:
       operationId: "get_articles_by_ids"
       produces:
@@ -31,7 +31,25 @@ paths:
         404:
           description: "Articel not found"
       x-swagger-router-controller: "swagger_server.controllers.default_controller"
-  /store/inventory:
+  /articles/{articleId}/buy:
+    post:
+      operationId: "buy_article"
+      parameters:
+        - name: "articleId"
+          in: "path"
+          required: true
+          type: "integer"
+        - name: "quantity"
+          in: "query"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "Article not found"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+  /inventory:
     get:
       operationId: "get_inventory"
       produces:

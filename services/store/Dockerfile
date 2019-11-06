@@ -1,5 +1,7 @@
 FROM python:3-alpine
 
+ENV DB db
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
