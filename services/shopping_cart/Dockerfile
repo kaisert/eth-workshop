@@ -1,5 +1,11 @@
 FROM python:3-alpine
 
+ENV DB db
+
+RUN apk update \
+  && apk add --virtual build-deps gcc python3-dev musl-dev \
+  && apk add postgresql-dev
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

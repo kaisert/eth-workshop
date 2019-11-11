@@ -19,7 +19,9 @@ else:
 db_port = 5432
 db_db = 'user'
 
+
 db_string = f"postgres+psycopg2://{db_username}:{db_password}@{db_host}:{db_port}/{db_db}"
+print(db_string)
 
 engine = sqlalchemy.create_engine(db_string)
 

@@ -5,6 +5,11 @@ from swagger_server.models.article import Article  # noqa: E501
 from swagger_server.models.cart import Cart  # noqa: E501
 from swagger_server import util
 
+from swagger_server.repository.repository import Repository
+from swagger_server.exceptions.exceptions import NotFoundException
+
+repository = Repository()
+
 
 def add_article_to_cart(userId, article):  # noqa: E501
     """add_article_to_cart
@@ -20,7 +25,11 @@ def add_article_to_cart(userId, article):  # noqa: E501
     """
     if connexion.request.is_json:
         article = Article.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        try:
+            repository.add_item(userId, article)
+        except NotFoundException:
+            return 404
+        return
 
 
 def checkout_cart(userId):  # noqa: E501
@@ -33,7 +42,10 @@ def checkout_cart(userId):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    try:
+        return repository.checkout_cart(userId)
+    except NotFoundException:
+        return 404
 
 
 def create_cart_for_user(userId):  # noqa: E501
@@ -46,7 +58,8 @@ def create_cart_for_user(userId):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    repository.create_cart(userId)
+    return
 
 
 def empty_cart(userId):  # noqa: E501
@@ -59,7 +72,11 @@ def empty_cart(userId):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    try:
+        repository.delete_cart(userId)
+        return
+    except NotFoundException:
+        return 404
 
 
 def get_cart_by_user_id(userId):  # noqa: E501
@@ -72,7 +89,10 @@ def get_cart_by_user_id(userId):  # noqa: E501
 
     :rtype: Cart
     """
-    return 'do some magic!'
+    try:
+        return repository.get_items(userId)
+    except NotFoundException:
+        return 404
 
 
 def remove_article_from_cart(userId, articleId, quantity=None):  # noqa: E501
@@ -89,4 +109,7 @@ def remove_article_from_cart(userId, articleId, quantity=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    try:
+        return repository.remove_item(userId, articleId)
+    except NotFoundException:
+        return 404
