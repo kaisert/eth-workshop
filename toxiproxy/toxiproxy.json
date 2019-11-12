@@ -16,5 +16,11 @@
       "listen": "0.0.0.0:8082",
       "upstream": "user:8080",
       "enabled": true
+    },
+    {
+      "name": "db_dev_1",
+      "listen": "0.0.0.0:5432",
+      "upstream": "db:5432",
+      "enabled": true
     }
   ]
