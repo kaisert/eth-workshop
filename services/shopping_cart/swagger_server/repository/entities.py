@@ -10,8 +10,8 @@ Base = declarative_base()
 class Cart(Base):
     __tablename__ = "carts"
     id = Column(Integer, primary_key=True)
-    user_id = Column(String, unique=True)
-    items = relationship("items", back_populates="cart")
+    user_id = Column(Integer, unique=True)
+    items = relationship("Item", back_populates="cart")
 
 
 class Item(Base):
@@ -19,7 +19,7 @@ class Item(Base):
     article_id = Column(Integer, primary_key=True)
     cart_id = Column(Integer, ForeignKey('carts.id'), primary_key=True)
     quantity = Column(Integer)
-    cart = relationship("carts", back_populates="items")
+    cart = relationship("Cart", back_populates="items")
 
     def to_domain(self) -> domain.Article:
         article = domain.Article()

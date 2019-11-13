@@ -25,57 +25,6 @@ paths:
         default:
           description: "successful operation"
       x-swagger-router-controller: "swagger_server.controllers.user_controller"
-  /user/login:
-    get:
-      tags:
-      - "user"
-      summary: "Logs user into the system"
-      description: ""
-      operationId: "login_user"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
-        required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          headers:
-            X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
-            X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
-          schema:
-            type: "string"
-        400:
-          description: "Invalid username/password supplied"
-      x-swagger-router-controller: "swagger_server.controllers.user_controller"
-  /user/logout:
-    get:
-      tags:
-      - "user"
-      summary: "Logs out current logged in user session"
-      description: ""
-      operationId: "logout_user"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        default:
-          description: "successful operation"
-      x-swagger-router-controller: "swagger_server.controllers.user_controller"
   /user/{username}:
     get:
       tags:

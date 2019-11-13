@@ -62,16 +62,6 @@ class TestUserController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_logout_user(self):
-        """Test case for logout_user
-
-        Logs out current logged in user session
-        """
-        response = self.client.open(
-            '/v1/user/logout',
-            method='GET')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
 
     def test_update_user(self):
         """Test case for update_user

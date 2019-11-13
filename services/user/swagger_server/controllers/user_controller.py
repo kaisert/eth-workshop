@@ -78,17 +78,6 @@ def login_user(username, password):  # noqa: E501
     return 'do some magic!'
 
 
-def logout_user():  # noqa: E501
-    """Logs out current logged in user session
-
-     # noqa: E501
-
-
-    :rtype: None
-    """
-    return 'do some magic!'
-
-
 def update_user(username, body):  # noqa: E501
     """Updated user
 
