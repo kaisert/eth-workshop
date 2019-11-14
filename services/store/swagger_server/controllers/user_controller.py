@@ -4,11 +4,12 @@ import six
 from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
 
-from swagger_server.repository.repository import Repository
 from swagger_server.exceptions.exceptions import *
+from swagger_server.services.http import *
 
-repository = Repository()
+from pathlib import Path
 
+base_url = Path('user:8080/user')
 
 def create_user(body):  # noqa: E501
     """Create user
@@ -21,13 +22,12 @@ def create_user(body):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        body = User.from_dict(connexion.request.get_json())  # noqa: E501
+        url = Path(f'')
         try:
-            repository.create_user(body)
-        except UserAlreadyExistsException:
-            return 'user already exists', 409
-
-    return
+            make_post_request(base_url / url, body)
+            return
+        except UnexpectedStatusCode as e:
+            return e.code
 
 
 def delete_user(username):  # noqa: E501
@@ -40,11 +40,12 @@ def delete_user(username):  # noqa: E501
 
     :rtype: None
     """
+    url = Path(f'{username}')
     try:
-        repository.delete_user(username)
-    except UserNotFoundException:
-        return 'user not found', 404
-    return
+        make_delete_request(base_url / url)
+        return
+    except UnexpectedStatusCode as e:
+        return 0, e.code
 
 
 def get_user_by_name(username):  # noqa: E501
@@ -57,7 +58,8 @@ def get_user_by_name(username):  # noqa: E501
 
     :rtype: User
     """
+    url = Path(f'{username}')
     try:
-        return repository.get_user(username)
-    except UserNotFoundException:
-        return 'user not found', 404
+        return make_get_request(base_url / url)
+    except UnexpectedStatusCode as e:
+        return e.code

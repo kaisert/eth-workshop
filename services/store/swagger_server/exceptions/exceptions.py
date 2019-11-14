@@ -4,3 +4,8 @@ class ArticleOutOfStockException(Exception):
 
 class ArticleNotFoundException(Exception):
     pass
+
+
+class UnexpectedStatusCode(Exception):
+    def __init__(self, code):
+        self.code = 'error', code

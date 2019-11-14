@@ -1,7 +1,7 @@
 import connexion
 import six
 
-from swagger_server.models.article import Article  # noqa: E501
+from swagger_server.models.item import Item  # noqa: E501
 from swagger_server.models.cart import Cart  # noqa: E501
 from swagger_server import util
 
@@ -22,7 +22,7 @@ def add_article_to_cart(userId, article):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        article = Article.from_dict(connexion.request.get_json())  # noqa: E501
+        article = Item.from_dict(connexion.request.get_json())  # noqa: E501
         try:
             with Repository() as repository:
                 cart = repository.get_cart(userId)

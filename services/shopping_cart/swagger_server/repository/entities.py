@@ -2,7 +2,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import *
 
-from swagger_server.models import article as domain
+from swagger_server.models import item as domain
 
 Base = declarative_base()
 
@@ -21,8 +21,8 @@ class Item(Base):
     quantity = Column(Integer)
     cart = relationship("Cart", back_populates="items")
 
-    def to_domain(self) -> domain.Article:
-        article = domain.Article()
+    def to_domain(self) -> domain.Item:
+        article = domain.Item()
         article.quantity = self.quantity
         article.article_id = self.article_id
         return article

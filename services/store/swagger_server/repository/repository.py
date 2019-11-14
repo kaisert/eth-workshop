@@ -47,15 +47,17 @@ class Repository:
     def get_articles(self, ids: List[int]) -> Articles:
         with get_session() as session:
             articles = session.query(entities.Article) \
-                .filter(entities.Article.id in ids)
+                .filter(entities.Article.id in ids) \
+                .all()
             if len(articles) != len(ids):
-                raise
+                raise ArticleNotFoundException()
             return articles
 
     def get_inventory(self) -> Articles:
         with get_session() as session:
             articles = session.query(entities.Article) \
-                .filter(entities.Article.storage_quantity > 0)
+                .filter(entities.Article.storage_quantity > 0) \
+                .all()
             return articles
 
     def buy_article(self, article_id: int, quantity: int):

@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models import Item
+from swagger_server.models import Article
 from swagger_server import util
 
 
@@ -16,18 +16,18 @@ class Cart(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, articles: List[Item]=None, abandoned: bool=None, complete: bool=False):  # noqa: E501
+    def __init__(self, articles: List[Article]=None, abandoned: bool=None, complete: bool=False):  # noqa: E501
         """Cart - a model defined in Swagger
 
         :param articles: The articles of this Cart.  # noqa: E501
-        :type articles: List[Item]
+        :type articles: List[Article]
         :param abandoned: The abandoned of this Cart.  # noqa: E501
         :type abandoned: bool
         :param complete: The complete of this Cart.  # noqa: E501
         :type complete: bool
         """
         self.swagger_types = {
-            'articles': List[Item],
+            'articles': List[Article],
             'abandoned': bool,
             'complete': bool
         }
@@ -54,22 +54,22 @@ class Cart(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def articles(self) -> List[Item]:
+    def articles(self) -> List[Article]:
         """Gets the articles of this Cart.
 
 
         :return: The articles of this Cart.
-        :rtype: List[Item]
+        :rtype: List[Article]
         """
         return self._articles
 
     @articles.setter
-    def articles(self, articles: List[Item]):
+    def articles(self, articles: List[Article]):
         """Sets the articles of this Cart.
 
 
         :param articles: The articles of this Cart.
-        :type articles: List[Item]
+        :type articles: List[Article]
         """
 
         self._articles = articles
