@@ -30,7 +30,7 @@ services:
       - "8080"
 
   db:
-    image: postgres
+    image: postgres:alpine
     environment:
       - POSTGRES_PASSWORD=NotMyBestIdea
     expose:
