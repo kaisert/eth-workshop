@@ -42,9 +42,9 @@ def delete_user(username):  # noqa: E501
     url = Path(f'{username}')
     try:
         make_delete_request(base_url / url)
-        return
+        return {}
     except UnexpectedStatusCode as e:
-        return 0, e.code
+        return e.code
 
 
 def get_user_by_name(username):  # noqa: E501
