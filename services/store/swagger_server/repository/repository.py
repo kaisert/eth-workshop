@@ -7,7 +7,7 @@ from sqlalchemy.sql import exists
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 
-from swagger_server.models.article import Article
+from swagger_server.models import article as domain
 from swagger_server.models.articles import Articles
 from swagger_server.repository import entities
 from swagger_server.exceptions.exceptions import *
@@ -44,6 +44,23 @@ class Repository:
     def __init__(self):
         pass
 
+    def create_article(self, domain_article: domain.Article) -> domain.Article:
+        with get_session() as session:
+            if self.article_exists(session, domain_article.id):
+                raise ArticleAlreadyExistsException()
+            article = entities.Article.from_domain(domain_article)
+            session.add(article)
+            session.commit()
+
+    def get_article(self, id: str):
+        with get_session() as session:
+            article = session.query(entities.Article) \
+                .filter(entities.Article.id == id) \
+                .one_or_none()
+            if article is None:
+                raise ArticleNotFoundException()
+            return article.to_domain()
+
     def get_articles(self, ids: List[int]) -> Articles:
         with get_session() as session:
             articles = session.query(entities.Article) \
@@ -53,12 +70,12 @@ class Repository:
                 raise ArticleNotFoundException()
             return articles
 
-    def get_inventory(self) -> Articles:
+    def get_inventory(self) -> List[domain.Article]:
         with get_session() as session:
             articles = session.query(entities.Article) \
                 .filter(entities.Article.storage_quantity > 0) \
                 .all()
-            return articles
+            return list(map(lambda a: a.to_domain(), articles))
 
     def buy_article(self, article_id: int, quantity: int):
         with get_session() as session:
@@ -73,3 +90,7 @@ class Repository:
             else:
                 article.quantity -= quantity
                 session.commit()
+
+    def article_exists(self, session: Session, id: str) -> bool:
+        return session.query(
+            exists().where(entities.Article.id == id)).scalar()
