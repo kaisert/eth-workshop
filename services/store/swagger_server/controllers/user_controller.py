@@ -9,7 +9,7 @@ from swagger_server.services.http import *
 
 from pathlib import Path
 
-base_url = Path('user:8080/user')
+base_url = Path('toxiproxy:8082/user')
 
 def create_user(body):  # noqa: E501
     """Create user
