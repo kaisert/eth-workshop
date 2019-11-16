@@ -51,6 +51,7 @@ class Repository:
             article = entities.Article.from_domain(domain_article)
             session.add(article)
             session.commit()
+            return article.to_domain()
 
     def get_article(self, id: str):
         with get_session() as session:
@@ -61,14 +62,14 @@ class Repository:
                 raise ArticleNotFoundException()
             return article.to_domain()
 
-    def get_articles(self, ids: List[int]) -> Articles:
+    def get_articles(self, ids: List[int]) -> List[domain.Article]:
         with get_session() as session:
             articles = session.query(entities.Article) \
                 .filter(entities.Article.id in ids) \
                 .all()
             if len(articles) != len(ids):
                 raise ArticleNotFoundException()
-            return articles
+            return list(map(lambda a: a.to_domain(), articles))
 
     def get_inventory(self) -> List[domain.Article]:
         with get_session() as session:
