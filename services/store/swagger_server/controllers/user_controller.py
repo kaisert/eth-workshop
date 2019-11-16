@@ -19,13 +19,12 @@ def create_user(body):  # noqa: E501
     :param body: Created user object
     :type body: dict | bytes
 
-    :rtype: None
+    :rtype: User
     """
     if connexion.request.is_json:
         url = Path(f'')
         try:
-            make_post_request(base_url / url, body)
-            return
+            return make_post_request(base_url / url, body)
         except UnexpectedStatusCode as e:
             return e.code
 

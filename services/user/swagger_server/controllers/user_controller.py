@@ -24,10 +24,11 @@ def create_user(body):  # noqa: E501
         body = User.from_dict(connexion.request.get_json())  # noqa: E501
         try:
             repository.create_user(body)
+            return body
         except UserAlreadyExistsException:
             return 'user already exists', 409
 
-    return
+    return 'Bad Request', 400
 
 
 def delete_user(username):  # noqa: E501
@@ -44,7 +45,7 @@ def delete_user(username):  # noqa: E501
         repository.delete_user(username)
     except UserNotFoundException:
         return 'user not found', 404
-    return
+    return {}
 
 
 def get_user_by_name(username):  # noqa: E501
