@@ -4,6 +4,8 @@ services:
     build:
       context: ./docker
       dockerfile: Dockerfile
+    environment:
+      - DB=toxiproxy
     volumes:
       - './services/store:/usr/src/app'
     expose:
