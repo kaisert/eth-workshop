@@ -1,0 +1,2 @@
+chaostoolkit==1.3.0
+chaostoolkit-toxiproxy==0.2.1
