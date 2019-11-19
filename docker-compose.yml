@@ -2,8 +2,10 @@ version: "3.3"
 services:
   store:
     build:
-      context: ./services/store
+      context: ./docker
       dockerfile: Dockerfile
+    volumes:
+      - './services/store:/usr/src/app'
     ports:
       - "8080:8080"
     links:
@@ -13,8 +15,10 @@ services:
 
   shopping_cart:
     build:
-      context: ./services/shopping_cart
+      context: ./docker
       dockerfile: Dockerfile
+    volumes:
+      - './services/shopping_cart:/usr/src/app'
     links:
       - "db"
     expose:
@@ -22,8 +26,10 @@ services:
 
   user:
     build:
-      context: ./services/user
+      context: ./docker
       dockerfile: Dockerfile
+    volumes:
+      - './services/user:/usr/src/app'
     links:
       - "db"
     expose:
