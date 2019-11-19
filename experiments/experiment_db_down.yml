@@ -1,0 +1,67 @@
+version: 1.0.0
+title: What is the impact of an unresponsive user service?
+description: If the user service is unreachable we should not fail.
+tags:
+- tls
+configuration:
+  toxiproxy_host: localhost
+steady-state-hypothesis:
+  title: Application responds
+  probes:
+  - type: probe
+    name: Should Create a User
+    tolerance: 200
+    provider:
+      type: http
+      method: POST
+      url: http://localhost:8080/user
+      headers:
+        Content-Type: application/json
+      arguments:
+        email: email
+        firstName: firstName
+        id: 1246321
+        lastName: lastName
+        password: password
+        phone: phone
+        userStatus: 6
+        username: username3
+  - type: probe
+    name: Should retrieve a User
+    tolerance: 200
+    provider:
+      type: http
+      url: http://localhost:8080/user/username3
+  - type: probe
+    name: Should Delete the User
+    tolerance: 200
+    provider:
+      type: http
+      method: DELETE
+      url: http://localhost:8080/user/username3
+method:
+- type: action
+  name: service_down
+  provider:
+    type: python
+    module: chaostoxi.proxy.actions
+    func: disable_proxy
+    arguments:
+      proxy_name: db_dev_1
+rollbacks:
+- type: action
+  name: service_up
+  provider:
+    type: python
+    module: chaostoxi.proxy.actions
+    func: enable_proxy
+    arguments:
+      proxy_name: db_dev_1
+- type: probe
+  name: Should Delete the User
+  tolerance: 200
+  provider:
+    type: http
+    method: DELETE
+    url: http://localhost:8080/user/username3
+

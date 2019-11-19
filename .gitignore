@@ -1,2 +1,6 @@
 .idea
 venv
+
+experiments/chaostoolkit.log
+
+experiments/journal.json
