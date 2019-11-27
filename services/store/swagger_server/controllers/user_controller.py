@@ -2,14 +2,12 @@ import connexion
 import six
 
 from swagger_server.models.user import User  # noqa: E501
-from swagger_server import util
 
 from swagger_server.exceptions.exceptions import *
 from swagger_server.services.http import *
 
 from pathlib import Path
 
-base_url = Path('toxiproxy:8082/user')
 
 def create_user(body):  # noqa: E501
     """Create user
@@ -22,9 +20,8 @@ def create_user(body):  # noqa: E501
     :rtype: User
     """
     if connexion.request.is_json:
-        url = Path(f'')
         try:
-            return make_post_request(base_url / url, body)
+            create_user(body)
         except UnexpectedStatusCode as e:
             return e.code
 
@@ -39,9 +36,8 @@ def delete_user(username):  # noqa: E501
 
     :rtype: None
     """
-    url = Path(f'{username}')
     try:
-        make_delete_request(base_url / url)
+        delete_user(username)
         return {}
     except UnexpectedStatusCode as e:
         return e.code
@@ -57,8 +53,7 @@ def get_user_by_name(username):  # noqa: E501
 
     :rtype: User
     """
-    url = Path(f'{username}')
     try:
-        return make_get_request(base_url / url)
+        return get_user_by_name(username)
     except UnexpectedStatusCode as e:
         return e.code

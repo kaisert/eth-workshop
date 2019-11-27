@@ -3,11 +3,7 @@ import six
 
 from swagger_server.models.item import Item# noqa: E501
 from swagger_server.models.cart import Cart  # noqa: E501
-from swagger_server.services.http import *
-
-from pathlib import Path
-
-base_url = Path('shopping_cart:8080/cart')
+from swagger_server.services.cart_service import *
 
 
 def add_article_to_cart(userId, item):  # noqa: E501
@@ -22,11 +18,9 @@ def add_article_to_cart(userId, item):  # noqa: E501
 
     :rtype: None
     """
-    url = Path(f'{userId}/article')
     if connexion.request.is_json:
         try:
-            make_post_request(base_url / url, item)
-            return
+            return add_article(userId, item)
         except UnexpectedStatusCode as e:
             return e.code
 
@@ -41,9 +35,8 @@ def checkout_cart(userId):  # noqa: E501
 
     :rtype: None
     """
-    url = Path(f'{userId}/checkout')
     try:
-        return make_post_request(base_url / url)
+        return checkout(userId)
     except UnexpectedStatusCode as e:
         return e.code
     pass
@@ -59,9 +52,8 @@ def create_cart_for_user(userId):  # noqa: E501
 
     :rtype: None
     """
-    url = Path(f'{userId}')
     try:
-        make_post_request(base_url / url)
+        create_for_user(userId)
         return
     except UnexpectedStatusCode as e:
         return e.code
@@ -77,9 +69,8 @@ def empty_cart(userId):  # noqa: E501
 
     :rtype: None
     """
-    url = Path(f'{userId}')
     try:
-        make_delete_request(base_url / url)
+        empty(userId)
         return
     except UnexpectedStatusCode as e:
         return e.code
@@ -95,9 +86,8 @@ def get_cart_by_user_id(userId):  # noqa: E501
 
     :rtype: Cart
     """
-    url = Path(f'{userId}')
     try:
-        return make_get_request(base_url / url)
+        return get_by_user_id(userId)
     except UnexpectedStatusCode as e:
         return e.code
 
@@ -116,8 +106,7 @@ def remove_article_from_cart(userId, articleId):  # noqa: E501
 
     :rtype: None
     """
-    url = Path(f'{userId}/article/{articleId}')
     try:
-        return make_delete_request(base_url / url)
+        return remove_article(userId, articleId)
     except UnexpectedStatusCode as e:
         return e.code
